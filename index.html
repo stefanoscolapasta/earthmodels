@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth Models — A spatial intelligence layer for agriculture</title>
+    <meta name="description" content="Earth Models is building 3D-reconstructed digital twins of greenhouse crops — turning weekly camera passes into calibrated kg/week harvest forecasts, starting with tomato and strawberry growers in Italy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Splat viewer (full-viewport fixed background, hero plate I) -->
+    <div id="splat-background"
+         class="splat-stage splat-stage-fixed"
+         data-splat-id="cypress"
+         data-splat-url="assets/ply/Sawara Cypress (Chamaecyparis pisifera)/scene_web.splat"
+         data-fig-id="EM·LAB / FIG·01"
+         data-name="SAWARA CYPRESS"
+         data-binomial="CHAMAECYPARIS PISIFERA"
+         data-coords="N 45.4642° E 9.1900°"
+         data-pipeline="CAPTURE → SfM → 3DGS"
+         data-shader="SH·DEG 0  /  σ ½‑PREC"
+         data-splat-count="1235685"
+         data-pivot-rot-z="3.14159"
+         data-right-offset="0.36"
+         data-spark-effects="true">
+        <div class="splat-loading">
+            <div class="loading-spinner"></div>
+            <span class="mono">Loading plate I — 1,235,685 splats</span>
+        </div>
+    </div>
+
+    <!-- Top rail -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="#">
+                <span class="brand-mark" aria-hidden="true">◉</span>
+                <span class="brand-name">Earth Models</span>
+                <span class="brand-tag mono-xs">v0.1 · MILAN, IT</span>
+            </a>
+            <nav class="topnav mono-xs">
+                <a href="#abstract">§00 · Abstract</a>
+                <a href="#vision">§01 · Vision</a>
+                <a href="#method">§02 · Method</a>
+                <a href="#yield">§03 · Yield</a>
+                <a href="#crops">§04 · Subjects</a>
+                <a href="#future">§05 · Outlook</a>
+                <a href="#contact">§06 · Contact</a>
+            </nav>
+            <div class="topbar-meta mono-xs">
+                <span id="clock">—:—:— UTC</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-marginalia mono-xs">
+            <span>ED. 2026.06</span>
+            <span>VOL. I · ISSUE 01</span>
+            <span>EARTH MODELS / WHITE PAPER</span>
+        </div>
+
+        <div class="hero-stack">
+            <p class="kicker mono-xs">A spatial intelligence layer for agriculture</p>
+            <h1 class="display">
+                <span class="display-line">Earth Models</span>
+                <span class="display-line"><span class="display-fade">for living systems</span></span>
+            </h1>
+            <p class="lede">
+                We are building <strong>3D digital twins</strong> of greenhouses — reconstructing every plant from weekly camera passes, then turning that continuously updated state into harvest forecasts, early sickness signals, and the kind of resource decisions a grower used to make on intuition alone.
+            </p>
+            <div class="hero-cta">
+                <a href="#yield" class="btn btn-primary">Read the method <span aria-hidden="true">→</span></a>
+                <a href="#contact" class="btn btn-ghost">Become a design partner</a>
+            </div>
+        </div>
+
+        <div class="hero-scrolltip mono-xs">
+            <span>SCROLL</span>
+            <span class="hero-scrolltip-line" aria-hidden="true"></span>
+        </div>
+    </section>
+
+    <!-- Abstract -->
+    <section id="abstract" class="section section-paper">
+        <div class="section-rail mono-xs">
+            <span class="rail-num">§ 00</span>
+            <span class="rail-title">ABSTRACT</span>
+        </div>
+        <div class="section-body">
+            <div class="abstract-layout">
+                <p class="abstract-text">
+                    Greenhouse growers commit to retailers and labour crews weeks before fruit ripens. Today they bridge the gap with manual sampling and gut feel. We argue that a <strong>spatial census</strong> of every plant, captured weekly and reconstructed in 3D<sup class="footnote-ref">1</sup>, becomes the substrate for a different operation — one where modern computer-vision and predictive models read the canopy directly, alongside the IoT sensors growers already deploy, to drive forecasts, flag stress before it spreads, and tighten resource use. Yield forecasting is the wedge; a closed-loop intelligence layer for growing systems is what we are building toward.
+                </p>
+
+                <figure class="splat-stage splat-stage-inline"
+                        data-splat-id="dandelion"
+                        data-splat-url="assets/ply/Dandelion on lawn/scene_web.splat"
+                        data-fig-id="EM·LAB / FIG·02"
+                        data-name="DANDELION"
+                        data-binomial="TARAXACUM OFFICINALE"
+                        data-coords="N 45.4659° E 9.1881°"
+                        data-pipeline="CAPTURE → SfM → 3DGS"
+                        data-shader="SH·DEG 0  /  σ ½‑PREC"
+                        data-splat-count="346327"
+                        data-pivot-rot-z="3.14159"
+                        data-right-offset="0"
+                        data-camera-pitch-deg="-45"
+                        data-fit-pad="0.8">
+                    <div class="splat-loading">
+                        <div class="loading-spinner"></div>
+                        <span class="mono">Loading plate II — 346,327 splats</span>
+                    </div>
+                    <figcaption class="mono-xs">PL · II · TARAXACUM OFFICINALE</figcaption>
+                </figure>
+            </div>
+
+            <dl class="meta-grid mono-xs">
+                <div><dt>AUTHORS</dt><dd>S. Scolari et al.</dd></div>
+                <div><dt>FILED</dt><dd>2026 · Q2</dd></div>
+                <div><dt>STATUS</dt><dd>Validation, Italian greenhouses</dd></div>
+                <div><dt>SUBJECTS</dt><dd>Tomato (primary) · Strawberry (validator)</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- Vision -->
+    <section id="vision" class="section section-paper">
+        <div class="section-rail mono-xs">
+            <span class="rail-num">§ 01</span>
+            <span class="rail-title">VISION</span>
+        </div>
+        <div class="section-body">
+            <h2 class="display-sm">A measurement layer, then a control loop.</h2>
+            <p class="prose-lead">
+                The 3D reconstruction is the substrate, not the product. Once the canopy is captured weekly as geometry, the same data feeds a stack of models — modern detection, segmentation, and forecasting networks have all leapt forward in the last three years — that turn a passive record into active control. Combined with the IoT sensors growers already run for climate and irrigation, the result is a holistic view of the operation: forecasts a grower can underwrite contracts on, stress signals surfaced before they spread, and resource decisions tied to plant-level evidence rather than block averages.
+            </p>
+            <div class="pillar-grid">
+                <article class="pillar">
+                    <header class="pillar-head mono-xs"><span>01</span><span>MEASURE</span></header>
+                    <h3>Census, not sample</h3>
+                    <p>Every plant in the rows we walk, every fruit in the canopy, lifted into a georeferenced 3D scene. The unit of analysis becomes the individual fruit, not a per-block average.</p>
+                </article>
+                <article class="pillar">
+                    <header class="pillar-head mono-xs"><span>02</span><span>WEIGH</span></header>
+                    <h3>Kilograms from geometry</h3>
+                    <p>True 3D volume + a per-cultivar size-to-mass model gives weight directly. Where 2D systems undercount occluded fruit and double-count moving fruit, geometry fixes both — and weight is the metric retailers and crews price against.</p>
+                </article>
+                <article class="pillar">
+                    <header class="pillar-head mono-xs"><span>03</span><span>FORECAST</span></header>
+                    <h3>Calibrated kg per week, per zone</h3>
+                    <p>Pair the per-fruit census with greenhouse climate to project the ripening pipeline 1–3 weeks out. Zone-level disaggregation, with uncertainty bands, calibrated to the operator's actual harvest logs.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method (technology) -->
+    <section id="method" class="section section-ink">
+        <div class="section-rail mono-xs"><span class="rail-num">§ 02</span><span class="rail-title">METHOD</span></div>
+        <div class="section-body">
+            <h2 class="display-sm">Counting in three dimensions, not two.</h2>
+            <p class="prose-lead">
+                Existing yield systems count in 2D and pay for it twice — fruit hidden behind leaves goes uncounted, and the same fruit gets re-counted across frames as the camera moves. Our edge is to reconstruct the canopy in 3D, so we see around occlusions, never double-count, and recover the metric that operators actually trade on: <em>kilograms</em>, not counts.
+            </p>
+            <ol class="method-list">
+                <li class="method-step">
+                    <header class="method-head">
+                        <span class="method-num mono-xs">M.01</span>
+                        <h3>3D reconstruction of the canopy</h3>
+                    </header>
+                    <p>A handheld or rail-mounted camera (an Insta360 works) sweeps each row weekly. We pair an off-the-shelf detector (YOLO + SAM) with structure-from-motion and 3D Gaussian Splatting<sup class="footnote-ref">1</sup> to lift every row into a geometrically faithful, georeferenced 3D scene — each fruit a tracked instance with a position, a size, and a persistent identity across captures.</p>
+                    <ul class="method-bullets">
+                        <li><span class="mono-xs">→</span> Multi-view: see fruit hidden behind leaves and other fruit</li>
+                        <li><span class="mono-xs">→</span> 3D identity: no double-counting across frames</li>
+                        <li><span class="mono-xs">→</span> True volume from geometry → weight via a per-cultivar size→mass model</li>
+                    </ul>
+                </li>
+                <li class="method-step">
+                    <header class="method-head">
+                        <span class="method-num mono-xs">M.02</span>
+                        <h3>Maturity staging from the canopy itself</h3>
+                    </header>
+                    <p>Each tracked fruit is staged green → breaker → ripe from its 3D appearance. Knowing where each fruit sits in the ripening pipeline — not just how many there are — is what lets us forecast a harvest curve rather than a single number. Robustness across glazing, supplemental LEDs, and Mediterranean tunnel light is the open frontier we're investing in.</p>
+                    <ul class="method-bullets">
+                        <li><span class="mono-xs">→</span> Per-fruit ripeness stage, not a per-row average</li>
+                        <li><span class="mono-xs">→</span> Census of every plant, not a sample of ten</li>
+                        <li><span class="mono-xs">→</span> Stable across glasshouses (Northern) and plastic tunnels (Southern)</li>
+                    </ul>
+                </li>
+                <li class="method-step">
+                    <header class="method-head">
+                        <span class="method-num mono-xs">M.03</span>
+                        <h3>Thermal-time forecasting</h3>
+                    </header>
+                    <p>Tomato and pepper ripening is dominantly temperature-driven<sup class="footnote-ref">2</sup>. We pair the per-fruit pipeline from M.01–M.02 with greenhouse climate data (temperature, daily light integral) to project when each cohort ripens and what it will weigh — kilograms harvestable per zone, per week, with uncertainty bands. Calibration is per-house and improves with every harvest cycle.</p>
+                    <ul class="method-bullets">
+                        <li><span class="mono-xs">→</span> 1–3 week horizon — the length of the ripening pipeline</li>
+                        <li><span class="mono-xs">→</span> Disaggregated by zone for labour and logistics planning</li>
+                        <li><span class="mono-xs">→</span> Continuously recalibrated against the operator's actual harvest logs</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="prose-lead method-coda">
+                The 3D capture is what makes everything downstream tractable. A weekly geometric record of the operation is a state representation in the modern ML sense — the kind of input the last few years of computer-vision and forecasting research have learned to consume directly. Sized cohorts and ripening stages drive harvest forecasts. Geometry-and-colour anomalies feed stress and disease detectors, often days before symptoms are visible to a scout. Plant-level response to a fertigation change becomes attributable instead of averaged out. Pair that with the operator's existing climate and soil sensors and you have a closed loop: measure → predict → act → re-measure. The faster the loop runs, the closer the operation moves to actively rebalancing itself in response to what the canopy is telling it.
+            </p>
+            <table class="data-table mono">
+                <caption>TABLE 01 · Method comparison vs. status quo</caption>
+                <thead>
+                    <tr><th></th><th>Manual sampling</th><th>Earth Models</th></tr>
+                </thead>
+                <tbody>
+                    <tr><th>Coverage</th><td>~ 10 plants / block</td><td>Census of every plant</td></tr>
+                    <tr><th>Volume estimation</th><td>± 25 % typical error</td><td>± 5 % from 3D geometry</td></tr>
+                    <tr><th>Cadence</th><td>Weekly, sparse</td><td>Weekly, exhaustive</td></tr>
+                    <tr><th>Forecast horizon</th><td>Gut-feel</td><td>1 – 3 weeks calibrated</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Yield -->
+    <section id="yield" class="section section-paper">
+        <div class="section-rail mono-xs"><span class="rail-num">§ 03</span><span class="rail-title">YIELD INTELLIGENCE</span></div>
+        <div class="section-body">
+            <p class="kicker mono-xs">FIRST PRODUCT</p>
+            <h2 class="display-sm">A forecast precise enough to commit on.</h2>
+            <p class="prose-lead">
+                A grower commits twice before any fruit is in hand: to a marketer for retail volume, and to a labour contractor for the picking crew. Both are paid for in days, not weeks. Under-deliver and you eat penalties or lose the listing; over-produce and you dump ripe fruit at fire-sale prices. We replace gut-feel with measured geometry — the same number drives both commitments.
+            </p>
+            <div class="benefit-grid">
+                <article class="benefit">
+                    <span class="mono-xs">B.01</span>
+                    <h4>Hold the listing</h4>
+                    <p>Retail supply contracts run on volume and consistency. A credible weekly forecast earns better terms — and avoids the fill-rate penalties and lost listings that follow a miss.</p>
+                </article>
+                <article class="benefit">
+                    <span class="mono-xs">B.02</span>
+                    <h4>Match crew to load</h4>
+                    <p>Pickers are booked days ahead. Knowing the ripening load by zone means no idle crews on slow days and no over-ripe fruit on heavy ones.</p>
+                </article>
+                <article class="benefit">
+                    <span class="mono-xs">B.03</span>
+                    <h4>Stop dumping fruit</h4>
+                    <p>A ripe tomato has days, not weeks. Forecast accuracy is the difference between selling at a contracted price and dumping the surplus into the wholesale market.</p>
+                </article>
+                <article class="benefit">
+                    <span class="mono-xs">B.04</span>
+                    <h4>One number, every downstream step</h4>
+                    <p>The same forecast sizes packing-line shifts, graders, cold-chain, and transport. Get the forecast right and the whole post-harvest chain stops absorbing slack.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects (crops) -->
+    <section id="crops" class="section section-paper">
+        <div class="section-rail mono-xs"><span class="rail-num">§ 04</span><span class="rail-title">SUBJECTS</span></div>
+        <div class="section-body">
+            <h2 class="display-sm">Crops with the shortest learning loops.</h2>
+            <p class="prose-lead">A startup learns at the rate of its predict → harvest → compare cycle. Crops with one harvest a year — apples, grapes, wheat — give a single validation event per season; we'd fail once and die. We pick continuously-harvested crops in controlled environments, where calibration is weekly.</p>
+            <div class="subject-grid">
+                <article class="subject">
+                    <header class="subject-head">
+                        <span class="mono-xs">SUBJECT · 01 · BERRY</span>
+                        <span class="mono-xs subject-tag">Fastest validator</span>
+                    </header>
+                    <h3><i>Fragaria × ananassa</i></h3>
+                    <p class="subject-common">Tabletop day-neutral strawberry</p>
+                    <p>Flower-to-ripe in 3–4 weeks, picked every 2–3 days, day-neutral varieties fruit continuously. Tabletop systems hang fruit below the canopy, so occlusion is minimal — the cleanest substrate to converge the perception model fast. We can validate a one-week forecast every week.</p>
+                    <dl class="subject-data mono-xs">
+                        <div><dt>Cycle</dt><dd>3–4 wk</dd></div>
+                        <div><dt>Forecast horizon</dt><dd>Days – 2 wk</dd></div>
+                        <div><dt>Form</dt><dd>Tabletop / tunnel</dd></div>
+                    </dl>
+                </article>
+                <article class="subject">
+                    <header class="subject-head">
+                        <span class="mono-xs">SUBJECT · 02 · SOLANACEAE</span>
+                        <span class="mono-xs subject-tag subject-tag-primary">Primary market</span>
+                    </header>
+                    <h3><i>Solanum lycopersicum</i></h3>
+                    <p class="subject-common">Indeterminate greenhouse tomato</p>
+                    <p>An 8–11 month cycle harvested weekly yields 30–40 prediction-vs-actual events from a single crop, with hundreds of fruit per plant. It is the dominant Mediterranean greenhouse crop, the substrate the existing players validate on, and the natural commercial home for the product.</p>
+                    <dl class="subject-data mono-xs">
+                        <div><dt>Cycle</dt><dd>8–11 mo</dd></div>
+                        <div><dt>Forecast horizon</dt><dd>1–3 wk</dd></div>
+                        <div><dt>Form</dt><dd>Indeterminate / glass</dd></div>
+                    </dl>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future / Outlook -->
+    <section id="future" class="section section-ink">
+        <div class="section-rail mono-xs"><span class="rail-num">§ 05</span><span class="rail-title">OUTLOOK</span></div>
+        <div class="section-body">
+            <h2 class="display-sm">A real-time view, an actively-rebalancing farm.</h2>
+            <p class="prose-lead">A continuously updated 3D record of every plant is the input modern ML systems are best suited to consume. The directions below all share the same shape: feed the canopy state into a learned model, get back a decision a human used to make on intuition. The shorter the capture-to-action loop, the more the operation moves from being managed to being self-correcting.</p>
+            <div class="future-grid">
+                <article class="future-card">
+                    <span class="mono-xs">F.01</span>
+                    <h4>Growth trajectories</h4>
+                    <p>Each tracked fruit becomes a time series — size, shape, ripening rate per cultivar and per zone. Phenotype data dense enough to inform variety selection and crop steering.</p>
+                </article>
+                <article class="future-card">
+                    <span class="mono-xs">F.02</span>
+                    <h4>Stress, before symptoms</h4>
+                    <p>Anomalies in geometry, colour, and growth rate often precede the visible disease signal by days. With a weekly baseline of "normal" per zone, the deviations become detectable.</p>
+                </article>
+                <article class="future-card">
+                    <span class="mono-xs">F.03</span>
+                    <h4>Inputs tied to outputs</h4>
+                    <p>Irrigation, fertigation, and climate setpoints are decided today against per-block averages. Plant-resolution measurement makes it possible to tie input changes to actual fruit-load response.</p>
+                </article>
+                <article class="future-card">
+                    <span class="mono-xs">F.04</span>
+                    <h4>Quality, not just quantity</h4>
+                    <p>Premium-grade volume is what moves price. Per-fruit geometry plus illumination-corrected appearance is the route to forecasting it — once the underlying staging model is robust enough.</p>
+                </article>
+            </div>
+            <blockquote class="pull-quote">
+                <p>3D capture is the input. Modern ML on that state is the engine. <em>Less waste, better decisions, faster response</em> is the output. Yield forecasting is just the first place we ship it.</p>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section section-paper">
+        <div class="section-rail mono-xs"><span class="rail-num">§ 06</span><span class="rail-title">CONTACT</span></div>
+        <div class="section-body section-body-center">
+            <h2 class="display-sm">Looking for design partners in Italy.</h2>
+            <p class="prose-lead">If you run a tomato or strawberry operation under glass or tunnel and want a forecast credible enough to commit retail volume on, we're looking for a few partner sites for the 2026 season. Concierge capture, your harvest logs as ground truth, transparent reporting.</p>
+            <a href="mailto:contact@earthmodels.ag" class="btn btn-primary btn-large">contact@earthmodels.ag <span aria-hidden="true">→</span></a>
+        </div>
+    </section>
+
+    <!-- Footnotes -->
+    <section class="footnotes section section-paper">
+        <div class="section-rail mono-xs"><span class="rail-num">§ ◇</span><span class="rail-title">REFERENCES</span></div>
+        <div class="section-body">
+            <ol class="footnote-list">
+                <li id="fn-1">
+                    <span class="mono-xs">[1]</span>
+                    <span class="footnote-body">Kerbl, Kopanas, Leimkühler, Drettakis. <em>3D Gaussian Splatting for Real-Time Radiance Field Rendering.</em> ACM TOG, 2023.</span>
+                </li>
+                <li id="fn-2">
+                    <span class="mono-xs">[2]</span>
+                    <span class="footnote-body">McMaster &amp; Wilhelm. <em>Growing degree-days: one equation, two interpretations.</em> Agric. For. Meteorol., 1997.</span>
+                </li>
+                <li id="fn-3">
+                    <span class="mono-xs">[3]</span>
+                    <span class="footnote-body">Min, Ye, Xiong, Chen. <em>Computer Vision Meets Generative Models in Agriculture: Technological Advances, Challenges and Opportunities.</em> Appl. Sci. 15(14): 7663, 2025. <a href="https://doi.org/10.3390/app15147663" target="_blank" rel="noopener">doi:10.3390/app15147663</a></span>
+                </li>
+                <li id="fn-4">
+                    <span class="mono-xs">[4]</span>
+                    <span class="footnote-body">Ojo, La, Morton, Stavness. <em>Splanting: 3D Plant Capture with Gaussian Splatting.</em> SIGGRAPH Asia 2024 Technical Communications. <a href="https://doi.org/10.1145/3681758.3698009" target="_blank" rel="noopener">doi:10.1145/3681758.3698009</a></span>
+                </li>
+                <li id="fn-5">
+                    <span class="mono-xs">[5]</span>
+                    <span class="footnote-body">Tabaa &amp; Di Caro. <em>GreenhouseSplat: A Dataset of Photorealistic Greenhouse Simulations for Mobile Robotics.</em> arXiv:2510.01848, 2025. <a href="https://arxiv.org/abs/2510.01848" target="_blank" rel="noopener">arxiv.org/abs/2510.01848</a></span>
+                </li>
+                <li id="fn-6">
+                    <span class="mono-xs">[6]</span>
+                    <span class="footnote-body">Jocher, Chaurasia, Qiu. <em>YOLOv8 by Ultralytics</em>. Open-source release, 2023. <a href="https://github.com/ultralytics/ultralytics" target="_blank" rel="noopener">github.com/ultralytics/ultralytics</a></span>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-block">
+                <span class="mono-xs">EARTH MODELS</span>
+                <p>Turning weekly camera passes into kg-per-week harvest forecasts. Tomato and strawberry first; a measurement framework for any crop after.</p>
+            </div>
+            <div class="footer-block">
+                <span class="mono-xs">CONTACT</span>
+                <ul>
+                    <li><a href="mailto:contact@earthmodels.ag">contact@earthmodels.ag</a></li>
+                    <li><a href="#">Github</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-block">
+                <span class="mono-xs">PLATE I</span>
+                <p>Sawara Cypress (Chamaecyparis pisifera). 1,235,685 splats. Photogrammetric capture → 3D Gaussian Splatting.<br>Asset CC-BY · <em>Polycam Capture</em>.</p>
+            </div>
+            <div class="footer-block">
+                <span class="mono-xs">COLOPHON</span>
+                <p>Set in <em>Instrument Serif</em>, <em>Inter Tight</em>, and <em>JetBrains Mono</em>. © 2026 Earth Models. v0.1.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+            "@sparkjsdev/spark": "https://sparkjs.dev/releases/spark/2.1.0/spark.module.js"
+        }
+    }
+    </script>
+    <script type="module" src="splat-viewer.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pip list)",
+      "Bash(python *)",
+      "Bash(curl -s http://127.0.0.1:8080/splat-viewer.js)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(curl -sI \"http://localhost:8000/index.html\")",
+      "WebFetch(domain:madewithclay.org)",
+      "WebFetch(domain:sparkjs.dev)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -sL \"https://sparkjs.dev/releases/spark/2.1.0/spark.module.js\" -o /tmp/spark.module.js)",
+      "Read(//tmp/**)",
+      "Bash(grep -nE \"Object\\\\.freeze\\\\\\(\\\\{[^}]*Dyno,\" /tmp/spark.module.js)",
+      "Bash(awk '/class Dyno/,/^}/' /tmp/spark.module.js)",
+      "Bash(curl -sI \"http://localhost:8000/\" -o /dev/null)",
+      "Bash(taskkill //F //IM python.exe)",
+      "Bash(curl -sI -H \"Accept-Encoding: gzip\" \"http://localhost:8000/index.html\")",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:dl.acm.org)",
+      "WebFetch(domain:www.mdpi.com)",
+      "WebFetch(domain:doi.org)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(git -C \"C:/Users/sscolari/Desktop/website\" status --short)"
+    ]
+  }
+}
