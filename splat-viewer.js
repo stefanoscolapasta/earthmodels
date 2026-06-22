@@ -24,8 +24,8 @@ const CONFIG = {
     // ── SCROLL DISSOLVE ────────────────────────────────────────────────────
     // Only stages with data-spark-effects="true" listen to scroll. The dissolve
     // is anchored to two DOM elements rather than viewport units.
-    SCROLL_DISSOLVE_START_SELECTOR: '.display',
-    SCROLL_DISSOLVE_END_SELECTOR:   '#abstract',
+    SCROLL_DISSOLVE_START_SELECTOR: '.display .display-line:last-child',  // second line of H1 — between .display and .lede
+    SCROLL_DISSOLVE_END_SELECTOR:   '#abstract',  // dissolve completes when next section covers the splat
     // Asymmetric recovery: each pixel of upward scroll reduces the dissolve as
     // if MULTIPLIER pixels had been scrolled. So at 2.5, recovering from a full
     // dissolve takes ~40% of the scroll distance that built it up.
@@ -87,7 +87,16 @@ async function mountSplat(stageEl) {
     splatPivot.rotation.set(cfg.pivotRot.x, cfg.pivotRot.y, cfg.pivotRot.z);
     scene.add(splatPivot);
 
-    const splatMesh = new SplatMesh({ url: cfg.url });
+    // .qsplat.gz is our quantised + gzipped format. We decode it client-side
+    // back to standard 32-byte .splat bytes and hand those to Spark.
+    // Other extensions (.splat / .ply / .spz) go straight through Spark's URL loader.
+    let splatMesh;
+    if (cfg.url.includes('.qsplat')) {
+        const splatBytes = await fetchAndDecodeQSplat(cfg.url);
+        splatMesh = new SplatMesh({ fileBytes: splatBytes, fileType: 'splat' });
+    } else {
+        splatMesh = new SplatMesh({ url: cfg.url });
+    }
     splatMesh.quaternion.identity();
     splatPivot.add(splatMesh);
 
@@ -268,6 +277,102 @@ function installScrollDissolve(setTarget) {
         window.addEventListener('load', measure, { once: true });
     }
     document.fonts?.ready?.then(measure);
+}
+
+// ============================================================================
+// .qsplat.gz loader — fetch + gzip-decompress + dequantise to .splat bytes
+// ----------------------------------------------------------------------------
+// Mirror of convert_ply.py's encoder. See that file for the full byte layout.
+// In a single line:
+//   header (44 B) tells us splat count + bbox + log-scale range;
+//   each splat is 17 B (pos uint16×3 | scale uint8×3 | rgba uint8×4 | rot uint8×4);
+//   we expand back to the standard .splat 32-byte layout (float32 pos + float32
+//   linear scale + uint8 rgba + uint8 rot).
+// ============================================================================
+async function fetchAndDecodeQSplat(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Fetch ${url} failed: ${res.status}`);
+
+    // DecompressionStream is supported in all evergreen browsers (2023+).
+    const ds = new DecompressionStream('gzip');
+    const decompressed = res.body.pipeThrough(ds);
+    const blob = await new Response(decompressed).arrayBuffer();
+    const raw = new Uint8Array(blob);
+
+    // ─── parse header ───
+    const HEADER_SIZE = 44;
+    const dv = new DataView(raw.buffer, raw.byteOffset, HEADER_SIZE);
+    const magic = dv.getUint32(0, true);
+    if (magic !== 0x51535054) throw new Error(`Bad magic: 0x${magic.toString(16)}`);
+    const version = dv.getUint8(4);
+    if (version !== 1) throw new Error(`Unsupported qsplat version ${version}`);
+    const count = dv.getUint32(8, true);
+    const bboxMinX = dv.getFloat32(12, true);
+    const bboxMinY = dv.getFloat32(16, true);
+    const bboxMinZ = dv.getFloat32(20, true);
+    const bboxMaxX = dv.getFloat32(24, true);
+    const bboxMaxY = dv.getFloat32(28, true);
+    const bboxMaxZ = dv.getFloat32(32, true);
+    const lnScaleMin = dv.getFloat32(36, true);
+    const lnScaleMax = dv.getFloat32(40, true);
+
+    const extX = bboxMaxX - bboxMinX;
+    const extY = bboxMaxY - bboxMinY;
+    const extZ = bboxMaxZ - bboxMinZ;
+    const lnExt = lnScaleMax - lnScaleMin;
+
+    // ─── allocate output (.splat layout: 32 bytes/splat) ───
+    const STRIDE = 32;
+    const out = new Uint8Array(count * STRIDE);
+    const outF32 = new Float32Array(out.buffer);
+
+    // ─── dequantise body ───
+    // The 17-byte stride means uint16 reads are unaligned for odd-indexed splats,
+    // so we always use DataView (which handles unaligned reads).
+    const BODY_OFFSET = HEADER_SIZE;
+    const SRC_STRIDE = 17;
+    for (let i = 0; i < count; i++) {
+        const srcOff = BODY_OFFSET + i * SRC_STRIDE;
+        const dv2 = new DataView(raw.buffer, raw.byteOffset + srcOff, SRC_STRIDE);
+
+        const xq = dv2.getUint16(0, true);
+        const yq = dv2.getUint16(2, true);
+        const zq = dv2.getUint16(4, true);
+        const sxq = dv2.getUint8(6);
+        const syq = dv2.getUint8(7);
+        const szq = dv2.getUint8(8);
+        const r = dv2.getUint8(9);
+        const g = dv2.getUint8(10);
+        const b = dv2.getUint8(11);
+        const a = dv2.getUint8(12);
+        const qw = dv2.getUint8(13);
+        const qx = dv2.getUint8(14);
+        const qy = dv2.getUint8(15);
+        const qz = dv2.getUint8(16);
+
+        const dstF = (i * STRIDE) >> 2;
+        // Position: dequant uint16 -> float32 over bbox.
+        outF32[dstF + 0] = bboxMinX + (xq / 65535) * extX;
+        outF32[dstF + 1] = bboxMinY + (yq / 65535) * extY;
+        outF32[dstF + 2] = bboxMinZ + (zq / 65535) * extZ;
+        // Scale: dequant uint8 over log-range, then exp() to linear (matches .splat).
+        outF32[dstF + 3] = Math.exp(lnScaleMin + (sxq / 255) * lnExt);
+        outF32[dstF + 4] = Math.exp(lnScaleMin + (syq / 255) * lnExt);
+        outF32[dstF + 5] = Math.exp(lnScaleMin + (szq / 255) * lnExt);
+
+        // Color RGBA + rotation: copy uint8 directly into the .splat tail.
+        const dstU8 = i * STRIDE + 24;
+        out[dstU8 + 0] = r;
+        out[dstU8 + 1] = g;
+        out[dstU8 + 2] = b;
+        out[dstU8 + 3] = a;
+        out[dstU8 + 4] = qw;
+        out[dstU8 + 5] = qx;
+        out[dstU8 + 6] = qy;
+        out[dstU8 + 7] = qz;
+    }
+
+    return out;
 }
 
 // ============================================================================
