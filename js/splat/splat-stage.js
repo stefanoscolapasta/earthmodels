@@ -135,10 +135,17 @@ export class SplatStage {
     }
 
     _installResizeHandlers(renderer, camera, applyRightOffset) {
+        // Track the last integer pixel size we actually applied. Mobile
+        // browsers fire scroll-induced resize/ResizeObserver events for
+        // sub-pixel URL-bar movement; reapplying setSize() each time
+        // re-creates the WebGL backing buffer and the canvas flickers.
+        let lastW = 0, lastH = 0;
         const sync = () => {
             const rect = this.el.getBoundingClientRect();
-            const w = Math.max(1, rect.width);
-            const h = Math.max(1, rect.height);
+            const w = Math.max(1, Math.round(rect.width));
+            const h = Math.max(1, Math.round(rect.height));
+            if (w === lastW && h === lastH) return;
+            lastW = w; lastH = h;
             renderer.setSize(w, h, false);
             camera.aspect = w / h;
             camera.updateProjectionMatrix();

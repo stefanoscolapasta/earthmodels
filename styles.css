@@ -73,7 +73,14 @@ body {
 }
 .splat-stage-fixed {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* Use the LARGE viewport height so mobile URL-bar collapse/expand doesn't
+       resize the canvas every scroll frame (which causes WebGL flicker).
+       100vh is the fallback for browsers without lvh support. */
+    height: 100vh;
+    height: 100lvh;
     z-index: 0;
     pointer-events: auto;
     background:
