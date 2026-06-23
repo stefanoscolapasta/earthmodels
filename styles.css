@@ -886,4 +886,20 @@ body {
     .display { font-size: clamp(3.5rem, 16vw, 6rem); }
     .meta-grid { grid-template-columns: 1fr 1fr; }
     .subject-data { grid-template-columns: 1fr; }
+
+    /* On phones the splat fills the whole viewport width (no right-offset
+       breathing room), so it lands directly behind the hero copy and tanks
+       legibility. Lay a soft paper wash behind the headline + lede + CTA so
+       the text reads clearly while the splat still shows around the edges. */
+    .hero-stack {
+        background:
+            radial-gradient(120% 90% at 30% 50%,
+                rgba(243, 239, 230, 0.92) 0%,
+                rgba(243, 239, 230, 0.82) 55%,
+                rgba(243, 239, 230, 0) 100%);
+        padding-left: clamp(0.5rem, 3vw, 1.25rem);
+        padding-right: clamp(0.5rem, 3vw, 1.25rem);
+        margin-left: clamp(-0.5rem, -3vw, -1.25rem);
+        margin-right: clamp(-0.5rem, -3vw, -1.25rem);
+    }
 }
