@@ -9,6 +9,8 @@ import { CONFIG } from './config.js';
  * @property {number}  cameraPitchDeg  - Negative = look down on subject.
  * @property {number}  fitPad          - Bounding-sphere fit pad (1 = exact).
  * @property {boolean} scrollEffects   - Whether this stage listens to scroll dissolve.
+ * @property {boolean} orbitControls   - Whether the user can drag-spin / wheel-zoom this stage.
+ *                                       When true, idle auto-spin and mouse-parallax are disabled.
  */
 
 /**
@@ -29,6 +31,7 @@ export function readStageConfig(el) {
         rightOffset:    Number(d.rightOffset ?? 0),
         cameraPitchDeg: Number(d.cameraPitchDeg ?? 0),
         fitPad:         d.fitPad ? Number(d.fitPad) : CONFIG.CAMERA_FIT_PAD,
-        scrollEffects:  d.sparkEffects === 'true'
+        scrollEffects:  d.sparkEffects === 'true',
+        orbitControls:  d.orbitControls === 'true'
     };
 }

@@ -100,6 +100,16 @@ body {
     pointer-events: none;
 }
 
+/* Orbit-enabled stages: grab cursor + disable touch-action so pinch-zoom and
+   drag are routed to OrbitControls instead of being interpreted as scroll. */
+.splat-stage[data-orbit-controls="true"] canvas {
+    cursor: grab;
+    touch-action: none;
+}
+.splat-stage[data-orbit-controls="true"] canvas:active {
+    cursor: grabbing;
+}
+
 .splat-loading {
     position: absolute;
     inset: 0;

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { SparkRenderer, SplatMesh, dyno } from '@sparkjsdev/spark';
 
 import { CONFIG } from './config.js';
@@ -19,6 +20,7 @@ export class SplatStage {
         this.el = el;
         this.config = readStageConfig(el);
         this._loop = null;
+        this._orbitControls = null;
         this._disposed = false;
         this._resizeObserver = null;
         this._onWindowResize = null;
@@ -40,9 +42,7 @@ export class SplatStage {
         scene.add(spark);
 
         const uniforms = {
-            uHover:      dyno.dynoFloat(0),
-            uDissolve:   dyno.dynoFloat(0),
-            uMouseLocal: dyno.dynoVec3([1e6, 1e6, 1e6])
+            uDissolve: dyno.dynoFloat(0)
         };
 
         const splatPivot = new THREE.Group();
@@ -65,21 +65,23 @@ export class SplatStage {
         this._installResizeHandlers(renderer, camera, applyRightOffset);
 
         splatMesh.objectModifier = makeScatterModifier({
-            bboxCenter:        center,
-            bboxRadius:        radius,
-            mouseRadiusWorld:  radius * CONFIG.MOUSE_SCATTER_RADIUS_FRAC,
+            bboxCenter: center,
+            bboxRadius: radius,
             uniforms
         });
         splatMesh.updateGenerator?.();
+
+        if (cfg.orbitControls) {
+            this._orbitControls = this._createOrbitControls(camera, renderer.domElement, radius);
+        }
 
         this._loop = new InteractionLoop({
             stageEl:       this.el,
             scene, renderer, camera, splatMesh,
             center, bboxRadius: radius,
-            uHover:        uniforms.uHover,
             uDissolve:     uniforms.uDissolve,
-            uMouseLocal:   uniforms.uMouseLocal,
-            scrollEffects: cfg.scrollEffects
+            scrollEffects: cfg.scrollEffects,
+            orbitControls: this._orbitControls
         });
         this._loop.start();
     }
@@ -88,8 +90,30 @@ export class SplatStage {
         if (this._disposed) return;
         this._disposed = true;
         this._loop?.dispose();
+        this._orbitControls?.dispose();
         this._resizeObserver?.disconnect();
         if (this._onWindowResize) window.removeEventListener('resize', this._onWindowResize);
+    }
+
+    /**
+     * Build OrbitControls scoped to this stage's canvas. Distances are derived
+     * from the bounding-sphere radius so it works for any splat size.
+     * @param {THREE.PerspectiveCamera} camera
+     * @param {HTMLCanvasElement} domElement
+     * @param {number} bboxRadius
+     */
+    _createOrbitControls(camera, domElement, bboxRadius) {
+        const controls = new OrbitControls(camera, domElement);
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.zoomSpeed = 0.7;
+        controls.rotateSpeed = 0.7;
+        controls.minDistance = bboxRadius * 0.6;
+        controls.maxDistance = bboxRadius * 8;
+        controls.target.set(0, 0, 0);
+        controls.update();
+        return controls;
     }
 
     _createRenderer() {

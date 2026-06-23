@@ -3,30 +3,27 @@ import { CONFIG, glslFloat } from './config.js';
 
 /**
  * @typedef {Object} ScatterUniforms
- * @property {{value:number}}              uHover      - 0..1 hover intensity.
- * @property {{value:number}}              uDissolve   - 0..1 scroll-driven dissolve.
- * @property {{value:[number,number,number]}} uMouseLocal - Mouse pos in splat-local space.
+ * @property {{value:number}} uDissolve - 0..1 scroll-driven dissolve.
  */
 
 /**
  * @typedef {Object} ScatterModifierParams
- * @property {THREE.Vector3} bboxCenter
- * @property {number}        bboxRadius
- * @property {number}        mouseRadiusWorld
+ * @property {THREE.Vector3}   bboxCenter
+ * @property {number}          bboxRadius
  * @property {ScatterUniforms} uniforms
  */
 
 /**
  * Build a per-splat dyno modifier that:
- *  - scatters splats radially outward when uHover or uDissolve are non-zero;
+ *  - scatters splats radially outward as `uDissolve` rises;
  *  - shrinks scales toward `SHRINK_AT_FULL_SCATTER` as scatter intensifies;
  *  - fades alpha by `ALPHA_FADE_AT_FULL`.
  *
  * @param {ScatterModifierParams} params
  * @returns {*} A dyno block that can be assigned to `splatMesh.objectModifier`.
  */
-export function makeScatterModifier({ bboxCenter, bboxRadius, mouseRadiusWorld, uniforms }) {
-    const { uHover, uDissolve, uMouseLocal } = uniforms;
+export function makeScatterModifier({ bboxCenter, bboxRadius, uniforms }) {
+    const { uDissolve } = uniforms;
     const c    = (n) => glslFloat(n);
     const vec3 = (v) => `vec3(${c(v.x)}, ${c(v.y)}, ${c(v.z)})`;
 
@@ -37,9 +34,9 @@ export function makeScatterModifier({ bboxCenter, bboxRadius, mouseRadiusWorld, 
             const { index, center, scales, rgba } = dyno.splitGsplat(gsplat).outputs;
 
             const dust = new dyno.Dyno({
-                inTypes:  { idx: 'int', pos: 'vec3', mouseLocal: 'vec3', hover: 'float', dissolve: 'float' },
+                inTypes:  { idx: 'int', pos: 'vec3', dissolve: 'float' },
                 outTypes: { newCenter: 'vec3', amt: 'float', shrink: 'float' },
-                inputs:   { idx: index, pos: center, mouseLocal: uMouseLocal, hover: uHover, dissolve: uDissolve },
+                inputs:   { idx: index, pos: center, dissolve: uDissolve },
                 globals: () => [dyno.unindent(`
                     vec3 hashDir(int i) {
                         float fi = float(i);
@@ -58,11 +55,7 @@ export function makeScatterModifier({ bboxCenter, bboxRadius, mouseRadiusWorld, 
                     vec3 outward = normalize(${inputs.pos} - ${vec3(bboxCenter)} + vec3(1e-5));
                     vec3 dir = normalize(outward + hashDir(${inputs.idx}) * ${c(CONFIG.SCATTER_JITTER_AMOUNT)});
 
-                    float distMouse = distance(${inputs.pos}, ${inputs.mouseLocal});
-                    float local = 1.0 - smoothstep(0.0, ${c(mouseRadiusWorld)}, distMouse);
-                    float mouseScatter = local * ${inputs.hover};
-
-                    float scatter = max(${inputs.dissolve}, mouseScatter);
+                    float scatter = ${inputs.dissolve};
                     float energy = 0.45 + hash1(${inputs.idx}) * 1.05;
                     float curve  = pow(scatter, 0.7);
 
