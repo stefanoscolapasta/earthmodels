@@ -26,7 +26,8 @@
       "Bash(node --check splat-viewer.js script.js js/splat/config.js js/splat/stage-config.js js/splat/qsplat-loader.js js/splat/camera-framing.js js/splat/scatter-modifier.js js/splat/scroll-dissolve.js js/splat/interaction-loop.js js/splat/splat-stage.js js/page/smooth-anchor-scroll.js js/page/reveal-on-scroll.js js/page/hud.js)",
       "Bash(node --check js/splat/splat-stage.js js/splat/interaction-loop.js js/splat/stage-config.js)",
       "Bash(node --check js/splat/scroll-dissolve.js)",
-      "Bash(node --check js/splat/config.js js/splat/scatter-modifier.js js/splat/splat-stage.js js/splat/interaction-loop.js)"
+      "Bash(node --check js/splat/config.js js/splat/scatter-modifier.js js/splat/splat-stage.js js/splat/interaction-loop.js)",
+      "Bash(node --check js/splat/splat-stage.js)"
     ]
   }
 }

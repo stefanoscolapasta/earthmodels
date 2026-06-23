@@ -112,6 +112,16 @@ export class SplatStage {
         controls.minDistance = bboxRadius * 0.6;
         controls.maxDistance = bboxRadius * 8;
         controls.target.set(0, 0, 0);
+
+        // Idle auto-rotate: keeps spinning the camera around the subject when
+        // the user isn't touching it. Speed picked to match the previous
+        // `SPLAT_SPIN_SPEED` (~0.13 rad/s) so the dandelion looks the same at
+        // rest as it did before OrbitControls was added.
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.85;
+        controls.addEventListener('start', () => { controls.autoRotate = false; });
+        controls.addEventListener('end',   () => { controls.autoRotate = true;  });
+
         controls.update();
         return controls;
     }
