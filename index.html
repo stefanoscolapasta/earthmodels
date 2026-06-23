@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Earth Models - A spatial intelligence layer for agriculture</title>
-    <meta name="description" content="Earth Models reconstructs greenhouse crops in 3D from weekly camera passes and turns them into calibrated kg/week harvest forecasts - starting with tomato and strawberry growers in Italy, building toward a learned model of living systems.">
+    <meta name="description" content="Earth Models builds a 4D representation of greenhouse crops from weekly camera passes - fusing 3D geometry, time, and climate to measure what is on the plants now and forecast what growers will harvest. Improving estimation and prediction together, starting with tomato and strawberry growers in Italy and building toward a learned model of living systems.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -70,7 +70,7 @@
                 <span class="display-line"><span class="display-fade">for living systems</span></span>
             </h1>
             <p class="lede">
-                We reconstruct every plant in a greenhouse from a simple weekly camera pass, and turn that continuously updated 3D state into harvest forecasts a grower can commit retail volume on. The forecast is the first thing we ship. The deeper aim is what the data makes possible - <strong>a learned model of how living systems grow, ripen, and fail.</strong>
+                We reconstruct every plant in a greenhouse from a simple weekly camera pass - the crop in 3D, tracked week over week - and fuse that living 4D record with its climate. That lets us both measure what is on the plants today and forecast what a grower will harvest, accurately enough to commit retail volume on. The forecast ships first; the deeper aim is what the data makes possible - <strong>a learned model of how living systems grow, ripen, and fail.</strong>
             </p>
             <div class="hero-cta">
                 <a href="#method" class="btn btn-primary">Read the method <span aria-hidden="true">→</span></a>
@@ -93,7 +93,7 @@
         <div class="section-body">
             <div class="abstract-layout">
                 <p class="abstract-text">
-                    Greenhouse growers commit to retailers and labour crews weeks before fruit ripens; today they bridge the gap with manual sampling and gut feel. We replace the sample with a <strong>spatial census</strong> - every plant captured weekly and reconstructed in 3D<sup class="footnote-ref">1</sup>, read directly by modern computer-vision and forecasting models alongside the climate sensors growers already run. Harvest forecasting is where we start, because it is the problem growers pay to solve. But the weekly 3D record it produces is the real asset: the substrate for learned models of how living systems grow, ripen, and fail.
+                    Greenhouse growers commit to retailers and labour crews weeks before fruit ripens; today they bridge the gap with manual sampling and gut feel. The research splits this into two problems - <em>estimation</em> (what is on the plants now) and <em>prediction</em> (what will be harvested, and when) - and the literature tends to attack each with thin, single-source input: images alone, or climate alone<sup class="footnote-ref">8</sup>. Our thesis is that both improve together when the input is richer - a full 4D representation of the crop: every plant reconstructed in 3D<sup class="footnote-ref">1</sup>, tracked through time, and fused with the climate sensors growers already run. A truer census of the present makes a truer forecast of the future, and the same record drives both - toward full understanding, and ultimately control, of the produce. Harvest forecasting is where we start, because it is the problem growers pay to solve; the weekly 4D record it produces is the asset that compounds beneath it.
                 </p>
 
                 <figure class="splat-stage splat-stage-inline"
@@ -136,7 +136,7 @@
         <div class="section-body">
             <h2 class="display-sm">Tomatoes are the wedge. A model of the living world is the work.</h2>
             <p class="prose-lead">
-                The 3D reconstruction and the harvest forecast are real, and they ship first - but they are the foothold, not the destination. Underneath them we are accumulating something rarer: a continuously growing, plant-resolution record of how living things develop in space and over time, joined to what they actually go on to do. Text taught machines to write; video is teaching them physics. A dense, four-dimensional record of growing systems - tied to real outcomes - is the training ground for something that hasn't existed before: a learned model of the living world<sup class="footnote-ref">3</sup>. That is what we mean by <strong>Earth Models</strong>.
+                The 3D reconstruction and the harvest forecast are real, and they ship first - but they are the foothold, not the destination. Underneath them we are accumulating something rarer: a continuously growing, plant-resolution record of how living things develop in space and over time, joined to what they actually go on to do. Text taught machines to write; video is teaching them physics. A dense, spatio-temporal multimodal record of growing systems, is the training ground for something that hasn't existed before: a learned model of the living world<sup class="footnote-ref">3</sup>. That is what we mean by <strong>Earth Models</strong>.
             </p>
             <div class="pillar-grid">
                 <article class="pillar">
@@ -147,7 +147,7 @@
                 <article class="pillar">
                     <header class="pillar-head mono-xs"><span>02</span><span>SUBSTRATE</span></header>
                     <h3>A record that didn't exist</h3>
-                    <p>Every weekly pass extends a four-dimensional archive - each plant, each fruit, in geometry, across time - joined to the harvest weights, the stress events, the response to every change in water and light. Not block averages reconstructed after the fact, but the living system measured as it unfolds. This corpus is the asset; the product is how we earn the right to grow it.</p>
+                    <p>Every weekly pass extends a multimodal archive<sup class="footnote-ref">7</sup> - each plant, each fruit, in geometry, across time - joined to the harvest weights, the stress events, the response to every change in water and light. Not block averages reconstructed after the fact, but the living system measured as it unfolds. This corpus is the asset; the product is how we earn the right to grow it.</p>
                 </article>
                 <article class="pillar">
                     <header class="pillar-head mono-xs"><span>03</span><span>MODEL</span></header>
@@ -162,9 +162,9 @@
     <section id="method" class="section section-ink">
         <div class="section-rail mono-xs"><span class="rail-num">§ 02</span><span class="rail-title">METHOD</span></div>
         <div class="section-body">
-            <h2 class="display-sm">Counting in three dimensions, not two.</h2>
+            <h2 class="display-sm">A 4D representation of the crop, not a 2D snapshot.</h2>
             <p class="prose-lead">
-                Existing yield systems count in 2D and pay for it twice - fruit hidden behind leaves goes uncounted, and the same fruit gets re-counted across frames as the camera moves. Our edge is to reconstruct the canopy in 3D, so we see around occlusions, never double-count, and recover the metric that operators actually trade on: <em>kilograms</em>, not counts.
+                The field reads the crop from flat images, and pays for it twice. In space, fruit hidden behind leaves goes uncounted and the same fruit is re-counted across frames - occlusion is the documented failure mode of 2D detection<sup class="footnote-ref">8</sup>. In time, a single snapshot can estimate what is ripe today but carries little signal for what ripens next. Our answer to both is one representation: the canopy reconstructed in 3D and tracked week over week - a 4D record - then fused with climate. In space, geometry lets us see around occlusions, never double-count, and recover the metric operators trade on - <em>kilograms</em>, not counts. In time, the same fruit followed across captures, together with the climate that drives it, is what turns a census of the present into a forecast of the future.
             </p>
             <ol class="method-list">
                 <li class="method-step">
@@ -205,7 +205,7 @@
                 </li>
             </ol>
             <p class="prose-lead method-coda">
-                The 3D capture is what makes everything downstream tractable: a weekly geometric record of the operation is a state representation in the modern ML sense - the kind of input recent computer-vision and forecasting research has learned to consume directly. Sized cohorts and ripening stages drive the harvest forecast. Geometry-and-colour anomalies can feed stress and disease detectors. Plant-level response to a fertigation change becomes attributable instead of averaged out. Pair that with the operator's existing climate and soil sensors and the result is a closed loop: measure → predict → act → re-measure.
+                This is the whole thesis in one line: estimation and prediction are not separate products but two reads of the same 4D record. Most of the field keeps them apart - images for the present, climate models for the future - and fuses neither<sup class="footnote-ref">8</sup>; we fuse both, and each sharpens the other. A weekly 4D record is a state representation in the modern ML sense - the kind of input recent vision-and-forecasting research consumes directly: sized cohorts and ripening stages drive the forecast, geometry-and-colour anomalies feed stress and disease detection, and plant-level response to a fertigation change becomes attributable instead of averaged out. Paired with the grower's existing climate and soil sensors, it closes the loop - measure → predict → act → re-measure - and moves the operation from forecasting its produce to understanding and controlling it.
             </p>
             <table class="data-table mono">
                 <caption>TABLE 01 · Design targets vs. manual sampling</caption>
@@ -324,7 +324,7 @@
                 </article>
             </div>
             <blockquote class="pull-quote">
-                <p>3D capture is the input. Learned models on that state are the engine. <em>Less waste, better decisions, faster response</em> is the output. Yield forecasting is simply the first place we ship it.</p>
+                <p>The 4D record is the input. Learned models on that state are the engine. <em>Less waste, better decisions, faster response</em> is the output. Yield forecasting is simply the first place we ship it.</p>
             </blockquote>
         </div>
     </section>
@@ -367,6 +367,14 @@
                 <li id="fn-6">
                     <span class="mono-xs">[6]</span>
                     <span class="footnote-body">Jocher, Chaurasia, Qiu. <em>YOLOv8 by Ultralytics</em>. Open-source release, 2023. <a href="https://github.com/ultralytics/ultralytics" target="_blank" rel="noopener">github.com/ultralytics/ultralytics</a></span>
+                </li>
+                <li id="fn-7">
+                    <span class="mono-xs">[7]</span>
+                    <span class="footnote-body">Adebola, Xie, Kim, Kerr, van Marrewijk, van Vlaardingen, van Daalen, van Loo, Susa Rincon, Solowjow, van de Zedde, Goldberg. <em>GrowSplat: Constructing Temporal Digital Twins of Plants with Gaussian Splats.</em> arXiv:2505.10923, 2025. <a href="https://arxiv.org/abs/2505.10923v2" target="_blank" rel="noopener">arxiv.org/abs/2505.10923v2</a></span>
+                </li>
+                <li id="fn-8">
+                    <span class="mono-xs">[8]</span>
+                    <span class="footnote-body">Odah, Houetohossou, Houndji, Glèlè Kakaï. <em>Machine learning techniques for tomato yield prediction: A comprehensive analysis.</em> Smart Agric. Technol. 12: 101067, 2025. <a href="https://doi.org/10.1016/j.atech.2025.101067" target="_blank" rel="noopener">doi:10.1016/j.atech.2025.101067</a></span>
                 </li>
             </ol>
         </div>
