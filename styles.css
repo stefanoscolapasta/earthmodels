@@ -894,8 +894,8 @@ body {
     .hero-stack {
         background:
             radial-gradient(120% 90% at 30% 50%,
-                rgba(243, 239, 230, 0.92) 0%,
-                rgba(243, 239, 230, 0.82) 55%,
+                rgba(243, 239, 230, 0.8) 0%,
+                rgba(243, 239, 230, 0.6) 35%,
                 rgba(243, 239, 230, 0) 100%);
         padding-left: clamp(0.5rem, 3vw, 1.25rem);
         padding-right: clamp(0.5rem, 3vw, 1.25rem);
